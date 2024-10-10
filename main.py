@@ -2,6 +2,10 @@ import re
 import os
 import sys
 
+def exit_program(message=""):
+    print(f"Exiting. {message}")
+    sys.exit(0)
+
 def get_list_of_files(dir_to_questions):
     raw_list_of_files = os.listdir(dir_to_questions)
     list_of_files = []
@@ -14,7 +18,9 @@ def get_list_of_files(dir_to_questions):
 
 def check_files_in_dir(dir_to_questions):
     list_of_files = get_list_of_files(dir_to_questions)
-    print("Welcome! Which question file would you like to quiz on?\n")
+    if len(list_of_files) == 0:
+        exit_program("There are no files in the given directory")
+    print("\nWelcome! Which question file would you like to quiz on?\n")
     question_files = {}
     for index, f in enumerate(list_of_files): # Fill dict with file number and name
         question_files[str(index+1)] = f
@@ -109,8 +115,11 @@ def run():
     split_by_questions = rawtext.split("\n\n")
 
     dict_of_qs = {}
-
-    dict_of_qs = assign_qs_to_dicts(split_by_questions, dict_of_qs)
+    try:
+        dict_of_qs = assign_qs_to_dicts(split_by_questions, dict_of_qs)
+    except Exception as e:
+        print(f"This file may not be formatted correctly: {e}")
+        exit_program()
     dict_of_qs, mistakes_count, correct_count = iterate_through_questions(dict_of_qs)
     final_summary(dict_of_qs, mistakes_count, correct_count)
 

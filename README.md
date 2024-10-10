@@ -1,4 +1,4 @@
-# aiken-to-anki
+# aiken-quizzer
 The goal here is to create a tool that works similar to Anki, but accepts the Aiken format to create the quiz.
 
 As of now, I'm defining "similar to Anki" with these requirements:
